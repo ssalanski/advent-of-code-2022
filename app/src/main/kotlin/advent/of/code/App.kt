@@ -29,13 +29,41 @@ class AdventOfCode {
         }
         println("highest calorie elf has $maxElf calories")
     }
+    fun `day 1 part 2`(runOnExample: Boolean = false) {
+        val filename = if (runOnExample) "example.txt" else "input.txt"
+        var currentElf = 0
+        val maxElves = TopNKeeper(3)
+        readInput("/day01/$filename").forEachLine {
+            if (it.isEmpty()) {
+                maxElves.consider(currentElf)
+                currentElf = 0
+            } else {
+                currentElf += it.toInt()
+            }
+        }
+        maxElves.consider(currentElf) // to make sure we consider the last line
+        println("3 highest calorie elves have ${maxElves.vals.sum()} calories")
+    }
     private fun readInput(name: String): BufferedReader =
         this.javaClass::class.java.getResource(name)?.openStream()?.bufferedReader() ?: throw IllegalArgumentException("$name was not found")
 }
+
+class TopNKeeper(val n: Int) {
+    val vals = mutableListOf(0,0,0)
+    fun consider(x: Int) {
+        if( vals.any { x > it }) {
+            vals[0] = x
+            vals.sort()
+        }
+    }
+}
+
 fun main() {
     println(App().greeting)
 
     AdventOfCode().`day 1 part 1`(true)
     AdventOfCode().`day 1 part 1`()
+    AdventOfCode().`day 1 part 2`(true)
+    AdventOfCode().`day 1 part 2`()
 
 }
