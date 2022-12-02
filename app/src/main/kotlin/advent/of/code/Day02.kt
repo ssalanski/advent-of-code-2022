@@ -7,7 +7,7 @@ class Day02(runOnExample: Boolean = false) : AdventOfCode(runOnExample) {
     val score = readInput().lineSequence().map { line ->
       line.split(' ').let { it[0][0].toRPS() to it[1][0].toRPS() }
     }.sumOf { (them, us) ->
-      us.scoreForPlaying() + us.scoreAgainst(them)
+      us.scoreForPlaying + us.outcomeAgainst(them).score
     }
     println("total score according to strategy guide: $score")
   }
@@ -23,24 +23,25 @@ fun Char.toRPS(): RPS = when (this) {
   'X' -> RPS.Rock
   'Y' -> RPS.Paper
   'Z' -> RPS.Scissors
-  else -> throw IllegalArgumentException("can only decode ABC/XYZ")
+  else -> throw IllegalArgumentException("can only decode ABC/XYZ, got $this")
+}
+
+enum class WLT {
+  Loss, Tie, Win;
+
+  val score: Int = ordinal * 3
 }
 
 enum class RPS {
   Rock, Paper, Scissors;
 
-  fun scoreForPlaying(): Int =
-    when (this) {
-      Rock -> 1
-      Paper -> 2
-      Scissors -> 3
-    }
+  val scoreForPlaying: Int = ordinal + 1
 
-  fun scoreAgainst(other: RPS): Int =
-    if (this == other) 3 else
+  fun outcomeAgainst(other: RPS): WLT =
+    if (this == other) WLT.Tie else
       when (this) {
-        Rock -> if (other == Scissors) 6 else 0
-        Paper -> if (other == Rock) 6 else 0
-        Scissors -> if (other == Paper) 6 else 0
+        Rock -> if (other == Scissors) WLT.Win else WLT.Loss
+        Paper -> if (other == Rock) WLT.Win else WLT.Loss
+        Scissors -> if (other == Paper) WLT.Win else WLT.Loss
       }
 }
