@@ -1,8 +1,7 @@
 package advent.of.code
 
-class Day01 : AdventOfCode {
-  override fun partOne(runOnExample: Boolean) {
-    val filename = if (runOnExample) "example.txt" else "input.txt"
+class Day01(runOnExample: Boolean = false) : AdventOfCode(runOnExample) {
+  override fun partOne() {
     var currentElf = 0
     var maxElf = 0
     readInput("/day01/$filename").forEachLine {
@@ -16,8 +15,7 @@ class Day01 : AdventOfCode {
     println("highest calorie elf has $maxElf calories")
   }
 
-  override fun partTwo(runOnExample: Boolean) {
-    val filename = if (runOnExample) "example.txt" else "input.txt"
+  override fun partTwo() {
     var currentElf = 0
     val maxElves = TopNKeeper(3)
     readInput("/day01/$filename").forEachLine {

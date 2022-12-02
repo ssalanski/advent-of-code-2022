@@ -4,7 +4,6 @@
 package advent.of.code
 
 import java.io.BufferedReader
-import java.lang.Integer.max
 
 class App {
   val greeting: String
@@ -13,20 +12,23 @@ class App {
     }
 }
 
-interface AdventOfCode {
-  fun partOne(runOnExample: Boolean = false)
-  fun partTwo(runOnExample: Boolean = false)
+abstract class AdventOfCode(runOnExample: Boolean=false) {
+  val filename = if (runOnExample) "example.txt" else "input.txt"
+  abstract fun partOne()
+  abstract fun partTwo()
   fun readInput(name: String): BufferedReader =
     this.javaClass::class.java.getResource(name)?.openStream()?.bufferedReader()
       ?: throw IllegalArgumentException("$name was not found")
+
+  fun run() {
+    partOne()
+    partTwo()
+  }
 }
 
 fun main() {
   println(App().greeting)
 
-  Day01().partOne(true)
-  Day01().partOne()
-  Day01().partTwo(true)
-  Day01().partTwo()
+  Day01().run()
 
 }
