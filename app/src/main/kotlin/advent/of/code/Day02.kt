@@ -13,6 +13,12 @@ class Day02(runOnExample: Boolean = false) : AdventOfCode(runOnExample) {
   }
 
   override fun partTwo() {
+    val score = readInput().lineSequence().map { line ->
+      line.split(' ').let { it[0][0].toRPS() to it[1][0].toWLT() }
+    }.sumOf { (them, outcome) ->
+      RPS.values().first { it.outcomeAgainst(them) == outcome }.scoreForPlaying + outcome.score
+    }
+    println("total score according to correctly read strategy guide: $score")
   }
 }
 
@@ -24,6 +30,13 @@ fun Char.toRPS(): RPS = when (this) {
   'Y' -> RPS.Paper
   'Z' -> RPS.Scissors
   else -> throw IllegalArgumentException("can only decode ABC/XYZ, got $this")
+}
+
+fun Char.toWLT(): WLT = when(this) {
+  'X' -> WLT.Loss
+  'Y' -> WLT.Tie
+  'Z' -> WLT.Win
+  else -> throw IllegalArgumentException("can only decode XYZ, got $this")
 }
 
 enum class WLT {
