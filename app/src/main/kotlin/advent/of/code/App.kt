@@ -31,6 +31,9 @@ abstract class AdventOfCode(runOnExample: Boolean=false) {
 fun main() {
   println(App().greeting)
 
-  Day01().run()
+//  Day01().run()
+  Day02(true).run()
+  Day02().run()
+
 
 }
