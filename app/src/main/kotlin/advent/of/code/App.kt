@@ -7,63 +7,26 @@ import java.io.BufferedReader
 import java.lang.Integer.max
 
 class App {
-    val greeting: String
-        get() {
-            return "Hello World!"
-        }
+  val greeting: String
+    get() {
+      return "Hello World!"
+    }
 }
 
-class AdventOfCode {
-
-    fun `day 1 part 1`(runOnExample: Boolean = false) {
-        val filename = if (runOnExample) "example.txt" else "input.txt"
-        var currentElf = 0
-        var maxElf = 0
-        readInput("/day01/$filename").forEachLine {
-            if (it.isEmpty()) {
-                currentElf = 0
-            } else {
-                currentElf += it.toInt()
-            }
-            maxElf = max(maxElf,currentElf)
-        }
-        println("highest calorie elf has $maxElf calories")
-    }
-    fun `day 1 part 2`(runOnExample: Boolean = false) {
-        val filename = if (runOnExample) "example.txt" else "input.txt"
-        var currentElf = 0
-        val maxElves = TopNKeeper(3)
-        readInput("/day01/$filename").forEachLine {
-            if (it.isEmpty()) {
-                maxElves.consider(currentElf)
-                currentElf = 0
-            } else {
-                currentElf += it.toInt()
-            }
-        }
-        maxElves.consider(currentElf) // to make sure we consider the last line
-        println("3 highest calorie elves have ${maxElves.vals.sum()} calories")
-    }
-    private fun readInput(name: String): BufferedReader =
-        this.javaClass::class.java.getResource(name)?.openStream()?.bufferedReader() ?: throw IllegalArgumentException("$name was not found")
-}
-
-class TopNKeeper(val n: Int) {
-    val vals = mutableListOf(0,0,0)
-    fun consider(x: Int) {
-        if( vals.any { x > it }) {
-            vals[0] = x
-            vals.sort()
-        }
-    }
+interface AdventOfCode {
+  fun partOne(runOnExample: Boolean = false)
+  fun partTwo(runOnExample: Boolean = false)
+  fun readInput(name: String): BufferedReader =
+    this.javaClass::class.java.getResource(name)?.openStream()?.bufferedReader()
+      ?: throw IllegalArgumentException("$name was not found")
 }
 
 fun main() {
-    println(App().greeting)
+  println(App().greeting)
 
-    AdventOfCode().`day 1 part 1`(true)
-    AdventOfCode().`day 1 part 1`()
-    AdventOfCode().`day 1 part 2`(true)
-    AdventOfCode().`day 1 part 2`()
+  Day01().partOne(true)
+  Day01().partOne()
+  Day01().partTwo(true)
+  Day01().partTwo()
 
 }
