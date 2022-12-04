@@ -4,18 +4,28 @@ class Day03(runOnExample: Boolean = false) : AdventOfCode(runOnExample) {
   override val day: Int = 3
 
   override fun partOne() {
-    val sumOfPriorities = readInput().lineSequence().map { line ->
-      val compartment1 = line.take(line.length / 2).toSet()
-      val compartment2 = line.takeLast(line.length / 2).toSet()
-      compartment1.intersect(compartment2).first()
-    }.sumOf {
-      priorityValue[it]!!
-    }
+    val sumOfPriorities = readInput().lineSequence()
+      .map { line ->
+        val compartment1 = line.take(line.length / 2).toSet()
+        val compartment2 = line.takeLast(line.length / 2).toSet()
+        compartment1.intersect(compartment2).first()
+      }.sumOf {
+        priorityValue[it]!!
+      }
     println("sum of shared item priorities = $sumOfPriorities")
   }
 
   override fun partTwo() {
-    println("???")
+    val sumOfPriorities = readInput().lineSequence()
+      .chunked(3)
+      .map { group ->
+        group.map { it.toCharArray().toSet() }
+          .reduce(Set<Char>::intersect)
+          .first()
+      }.sumOf {
+        priorityValue[it]!!
+      }
+    println("sum of badge priorities = $sumOfPriorities")
   }
 }
 
