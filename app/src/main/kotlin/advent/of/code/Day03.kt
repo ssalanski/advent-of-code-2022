@@ -27,8 +27,8 @@ class Day03(runOnExample: Boolean = false) : AdventOfCode(runOnExample) {
       }
     println("sum of badge priorities = $sumOfPriorities")
   }
-}
 
-val priorityValue: Map<Char, Int> =
-  CharRange('a', 'z').zip(IntRange(1, 26)).toMap() +
-    CharRange('A', 'Z').zip(IntRange(27, 52)).toMap()
+  private val priorityValue: Map<Char, Int> =
+    CharRange('a', 'z').zip(IntRange(1, 26)).toMap() +
+      CharRange('A', 'Z').zip(IntRange(27, 52)).toMap()
+}
