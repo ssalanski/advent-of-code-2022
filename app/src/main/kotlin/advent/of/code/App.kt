@@ -32,8 +32,9 @@ fun main() {
   println(App().greeting)
 
 //  Day01().run()
-  Day02(true).run()
-  Day02().run()
+//  Day02().run()
+  Day03(true).run()
+  Day03().run()
 
 
 }
