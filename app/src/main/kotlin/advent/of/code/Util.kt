@@ -9,3 +9,6 @@ class TopNKeeper(val n: Int) {
     }
   }
 }
+
+fun IntRange.within(other: IntRange): Boolean =
+  other.contains(start) and other.contains(endInclusive)
