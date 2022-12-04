@@ -20,6 +20,18 @@ class Day04(runOnExample: Boolean = false) : AdventOfCode(runOnExample) {
   }
 
   override fun partTwo() {
-    print("???")
+    val overlappingPairs = readInput().lineSequence().map { line ->
+      line.split(',').map { assignmentRange ->
+        assignmentRange.split('-').let {
+          it[0].toInt()..it[1].toInt()
+        }
+      }.let {
+        it[0] to it[1]
+      }
+    }
+      .count { (elf1, elf2) ->
+        elf1.overlaps(elf2)
+      }
+    println("fully contained pairs: $overlappingPairs")
   }
 }
