@@ -62,18 +62,3 @@ class Day05(runOnExample: Boolean = false) : AdventOfCode(runOnExample) {
 
   data class MoveOp(val count: Int, val from: Int, val too: Int)
 }
-
-
-private fun <T> Sequence<T>.splitSequenceOn(predicate: (T) -> Boolean): Sequence<Sequence<T>> {
-  val iter = iterator()
-  return sequence {
-    while (iter.hasNext()) {
-      yield(generateSequence {
-        if (iter.hasNext())
-          iter.next().takeUnless(predicate)
-        else
-          null
-      })
-    }
-  }
-}
