@@ -3,17 +3,24 @@ package advent.of.code
 class Day06(runOnExample: Boolean = false) : AdventOfCode(runOnExample) {
   override val day: Int = 6
 
+  private fun findFirstWindowOfDistinctCharacters(stream: Iterable<Char>, size: Int): Int {
+    return size + stream.windowed(size, 1, false).indexOfFirst {
+      it.distinct().count() == size
+    }
+  }
+
   override fun partOne() {
     readInput().forEachLine { line ->
-      val marker = 4 + line.asSequence().windowed(4, 1, false).indexOfFirst {
-        it.distinct().count() == 4
-      }
+      val marker = findFirstWindowOfDistinctCharacters(line.asIterable(), 4)
       println("four-character marker position: $marker")
     }
   }
 
   override fun partTwo() {
-    println("???")
+    readInput().forEachLine { line ->
+      val marker = findFirstWindowOfDistinctCharacters(line.asIterable(), 14)
+      println("fourteen-character marker position: $marker")
+    }
   }
 
 }
