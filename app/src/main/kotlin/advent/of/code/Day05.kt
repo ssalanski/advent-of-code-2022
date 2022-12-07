@@ -49,7 +49,15 @@ class Day05(runOnExample: Boolean = false) : AdventOfCode(runOnExample) {
   }
 
   override fun partTwo() {
-    println("???")
+    val inputSequence = readInput().lineSequence().splitSequenceOn { it.isEmpty() }.iterator()
+    val stacks = parseStartingArrangement(inputSequence.next().toList()).map { it.toMutableList() }
+    val operations = parseMoveOperations(inputSequence.next())
+    operations.forEach { op ->
+      stacks[op.too - 1].addAll(stacks[op.from - 1].takeLast(op.count))
+      repeat(op.count) { stacks[op.from - 1].removeLast() }
+    }
+    val tops = stacks.map { it.last() }.joinToString("")
+    println("final top crates after _actual_ rearrangement: $tops")
   }
 
   data class MoveOp(val count: Int, val from: Int, val too: Int)
