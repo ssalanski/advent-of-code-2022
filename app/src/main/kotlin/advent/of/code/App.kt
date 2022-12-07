@@ -12,7 +12,7 @@ class App {
     }
 }
 
-abstract class AdventOfCode(runOnExample: Boolean=false) {
+abstract class AdventOfCode(runOnExample: Boolean = false) {
   private val filename = if (runOnExample) "example.txt" else "input.txt"
   abstract val day: Int
   abstract fun partOne()
@@ -20,6 +20,7 @@ abstract class AdventOfCode(runOnExample: Boolean=false) {
   private fun readInput(name: String): BufferedReader =
     this.javaClass::class.java.getResource(name)?.openStream()?.bufferedReader()
       ?: throw IllegalArgumentException("$name was not found")
+
   fun readInput(): BufferedReader = readInput("/day%02d/$filename".format(day))
 
   fun run() {
@@ -34,7 +35,8 @@ fun main() {
 //  Day01().run()
 //  Day02().run()
 //  Day03().run()
-  Day04(true).run()
-  Day04().run()
+//  Day04().run()
+  Day05(true).run()
+  Day05().run()
 
 }
