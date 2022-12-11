@@ -29,3 +29,8 @@ fun <T> Sequence<T>.splitSequenceOn(predicate: (T) -> Boolean): Sequence<Sequenc
     }
   }
 }
+
+operator fun <E> List<E>.get(intRange: IntRange): List<E> {
+  return if (intRange.last < intRange.first) emptyList() else
+    intRange.map { this[it] }
+}
