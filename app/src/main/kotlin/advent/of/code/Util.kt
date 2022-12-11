@@ -34,3 +34,19 @@ operator fun <E> List<E>.get(intRange: IntRange): List<E> {
   return if (intRange.last < intRange.first) emptyList() else
     intRange.map { this[it] }
 }
+
+inline fun <T> Iterable<T>.takeWhile(
+  inclusive: Boolean,
+  predicate: (T) -> Boolean
+): List<T> {
+  val list = ArrayList<T>()
+  for (item in this) {
+    if (!predicate(item)) {
+      if (inclusive)
+        list.add(item)
+      break
+    }
+    list.add(item)
+  }
+  return list
+}
