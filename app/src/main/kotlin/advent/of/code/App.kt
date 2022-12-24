@@ -39,7 +39,8 @@ fun main() {
 //  Day05().run()
 //  Day06().run()
 //  Day07().run()
-  Day08(true).run()
-  Day08().run()
+//  Day08().run()
+  Day09(true).run()
+  Day09().run()
 
 }
