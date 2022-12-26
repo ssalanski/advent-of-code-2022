@@ -24,11 +24,12 @@ class Day09(runOnExample: Boolean = false) : AdventOfCode(runOnExample) {
           }
           if (tail.chebyshevDistance(head) > 1) {
             tail = prevHead
-            tailVisits.add(tail)
+            tailVisits.add(tail.copy())
           }
         }
       }
     }
+//    printMap(tailVisits)
     println("number of positions tail visited: ${tailVisits.size}")
   }
 
@@ -75,13 +76,22 @@ class Day09(runOnExample: Boolean = false) : AdventOfCode(runOnExample) {
               Coord(-1,-2),Coord(-2,-1),Coord(-2, -2) -> { t.x++; t.y++ }
             }
           }
-          tailVisits.add(rope.last())
+          tailVisits.add(rope.last().copy())
         }
 //        println(rope)
       }
     }
+//    printMap(tailVisits)
     println("number of positions long tail visited: ${tailVisits.size}")
+  }
 
+  private fun printMap(coords: Collection<Coord>) {
+    coords.map { it.y }.let { it.min()..it.max() }.forEach { y ->
+      coords.map { it.x }.let { it.min()..it.max() }.forEach { x ->
+        print(if (coords.contains(Coord(x, y))) "X" else ".")
+      }
+      println()
+    }
   }
 
   private data class Coord(var x: Int, var y: Int)
