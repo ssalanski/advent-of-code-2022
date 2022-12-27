@@ -3,26 +3,29 @@ package advent.of.code
 class Day10(runOnExample: Boolean = false) : AdventOfCode(runOnExample) {
   override val day: Int = 10
 
-  override fun partOne() {
-    val signalStrengths = mutableListOf<Int>()
+  private fun registerGenerator() = sequence {
+    yield(0)
     var register = 1
-    var cycle = 0
-    readInput().forEachLine { line ->
+    readInput().lineSequence().forEach { line ->
       line.trim().split(' ').let {
         if (it[0] == "addx") {
+          yield(register)
+          yield(register)
           register += it[1].toInt()
-          cycle += 2
         } else {
-          cycle += 1
+          yield(register)
         }
       }
-      if ((cycle) % 40 == 20) {
-        signalStrengths.add(cycle * register)
-      }
-      println("$cycle, $register")
     }
-    val sumOfSignalStrengths = signalStrengths.take(6).sum()
-    println(signalStrengths)
+  }
+
+  override fun partOne() {
+    val sumOfSignalStrengths =
+      registerGenerator().withIndex()
+        .filter { it.index % 40 == 20 }
+        .map { it.index * it.value }
+        .take(6)
+        .sum()
     println("sum of signal strengths = $sumOfSignalStrengths")
   }
 
