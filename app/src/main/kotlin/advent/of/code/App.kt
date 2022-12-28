@@ -18,7 +18,7 @@ abstract class AdventOfCode(runOnExample: Boolean = false) {
   abstract fun partOne()
   abstract fun partTwo()
   private fun readInput(name: String): BufferedReader =
-    this.javaClass::class.java.getResource(name)?.openStream()?.bufferedReader()
+    this.javaClass.getResource(name)?.openStream()?.bufferedReader()
       ?: throw IllegalArgumentException("$name was not found")
 
   fun readInput(): BufferedReader = readInput("/day%02d/$filename".format(day))
