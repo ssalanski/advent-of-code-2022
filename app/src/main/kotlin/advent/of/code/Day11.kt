@@ -1,31 +1,34 @@
 package advent.of.code
 
+import java.util.*
 import kotlin.streams.asSequence
 
 class Day11(runOnExample: Boolean = false) : AdventOfCode(runOnExample) {
   override val day: Int = 11
 
   override fun partOne() {
-    val monkeys = parse_monkeys()
-    monkeys.forEach {
+    val monkeys = parse_monkeys().associateBy { it.index }.toSortedMap()
+    monkeys.values.forEach {
       println(it)
     }
     repeat(20) {roundNum ->
-      monkeys.forEach { monkey -> monkey.items = monkey.items.map(monkey.operation) }
-      monkeys.flatMap { monkey -> monkey.items.map { monkey.target(it) to it } }
-        .fold(monkeys.associate { it.index to mutableListOf() }) { param: Map<Int, MutableList<Int>>, (a, b): Pair<Int, Int> ->
-          param.apply {
-            get(a)!!.add(b)
-          }
+      monkeys.values.forEach { monkey ->
+        monkey.items.map(monkey.operation).forEach {
+          monkeys[monkey.target(it)]!!.items.add(it)
         }
-        .forEach { (monkeyId, newItems) ->
-          monkeys.find { it.index == monkeyId }!!.items = newItems
-        }
-      println("~~ Round $roundNum ~~")
-      monkeys.forEach {
-        println(it)
+        monkey.totalInspections += monkey.items.size
+        monkey.items.clear()
       }
+//      println("~~ Round $roundNum ~~")
+//      monkeys.forEach {
+//        println(it)
+//      }
     }
+    monkeys.values.forEach {
+      println(" - monkey ${it.index} inspected ${it.totalInspections} items")
+    }
+    val monkeyBusiness = monkeys.values.map { it.totalInspections }.sortedDescending().take(2).reduce { a, b -> a * b }
+    println("monkey business level: $monkeyBusiness")
   }
 
   override fun partTwo() {
@@ -34,10 +37,11 @@ class Day11(runOnExample: Boolean = false) : AdventOfCode(runOnExample) {
 
   class Monkey(
     val index: Int,
-    var items: List<Int>,
+    var items: MutableList<Int>,
     val operation: (item: Int) -> Int,
     val target: (value: Int) -> Int
   ) {
+    var totalInspections = 0
     override fun toString(): String {
       return "Monkey $index has $items 0 -> ${operation(0)}, 1->${operation(1)}, targets: ${(1..99).map(target).toSet()}"
     }
@@ -49,7 +53,7 @@ class Day11(runOnExample: Boolean = false) : AdventOfCode(runOnExample) {
         assert(strings[0].trim().matches(Regex.fromLiteral("Monkey $index:")))
         val startingItems =
           strings[1].trim().drop("Starting items: ".length).split(",").map(String::trim)
-            .map(String::toInt)
+            .map(String::toInt).toMutableList()
         val (operator, operand) = Regex("([+*-]) (\\d+|old)").matchAt(
           strings[2].trim(),
           "Operation: new = old ".length
