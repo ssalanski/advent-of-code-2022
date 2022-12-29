@@ -30,7 +30,17 @@ class Day10(runOnExample: Boolean = false) : AdventOfCode(runOnExample) {
   }
 
   override fun partTwo() {
-    println("???")
+    registerGenerator().windowed(40,40).forEach {row ->
+      println(row.joinToString(",") { "%02d".format(it) })
+    }
+    registerGenerator().windowed(40,40).forEach { row ->
+      println(row.mapIndexed { index, i -> if ((index-1).withinOne(i)) "#" else "." }.joinToString(""))
+
+    }
   }
 
+}
+
+private fun Int.withinOne(i: Int): Boolean {
+  return this == i || this == i+1 || this == i-1
 }
