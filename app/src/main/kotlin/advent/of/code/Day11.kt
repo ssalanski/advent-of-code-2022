@@ -11,7 +11,7 @@ class Day11(runOnExample: Boolean = false) : AdventOfCode(runOnExample) {
     monkeys.values.forEach {
       println(it)
     }
-    monkeyAround(monkeys, 20, 3)
+    monkeyAround(monkeys, 20, 3U)
   }
 
   override fun partTwo() {
@@ -19,10 +19,10 @@ class Day11(runOnExample: Boolean = false) : AdventOfCode(runOnExample) {
     monkeys.values.forEach {
       println(it)
     }
-    monkeyAround(monkeys, 10000, 1)
+    monkeyAround(monkeys, 10000, 1U)
   }
 
-  fun monkeyAround(monkeys: SortedMap<Int,Monkey>, numRounds: Int, worryDivisor: Int) {
+  fun monkeyAround(monkeys: SortedMap<Int,Monkey>, numRounds: Int, worryDivisor: UInt) {
     repeat(numRounds) {roundNum ->
       monkeys.values.forEach { monkey ->
         monkey.items
@@ -42,19 +42,19 @@ class Day11(runOnExample: Boolean = false) : AdventOfCode(runOnExample) {
     monkeys.values.forEach {
       println(" - monkey ${it.index} inspected ${it.totalInspections} items")
     }
-    val monkeyBusiness = monkeys.values.map { it.totalInspections }.sortedDescending().take(2).reduce { a, b -> a * b }
+    val monkeyBusiness = monkeys.values.map { it.totalInspections.toULong() }.sortedDescending().take(2).also { println(it) }.reduce { a, b -> a * b }
     println("monkey business level: $monkeyBusiness")
   }
 
   class Monkey(
     val index: Int,
-    var items: MutableList<Int>,
-    val operation: (item: Int) -> Int,
-    val target: (value: Int) -> Int
+    var items: MutableList<ULong>,
+    val operation: (item: ULong) -> ULong,
+    val target: (value: ULong) -> Int
   ) {
     var totalInspections = 0
     override fun toString(): String {
-      return "Monkey $index has $items 0 -> ${operation(0)}, 1->${operation(1)}, targets: ${(1..99).map(target).toSet()}"
+      return "Monkey $index has $items 0 -> ${operation(0U)}, 1->${operation(1U)}, targets: ${(1UL..99UL).map(target).toSet()}"
     }
   }
 
@@ -64,15 +64,15 @@ class Day11(runOnExample: Boolean = false) : AdventOfCode(runOnExample) {
         assert(strings[0].trim().matches(Regex.fromLiteral("Monkey $index:")))
         val startingItems =
           strings[1].trim().drop("Starting items: ".length).split(",").map(String::trim)
-            .map(String::toInt).toMutableList()
+            .map(String::toULong).toMutableList()
         val (operator, operand) = Regex("([+*-]) (\\d+|old)").matchAt(
           strings[2].trim(),
           "Operation: new = old ".length
         )!!.destructured
-        val operation = fun(item: Int): Int {
+        val operation = fun(item: ULong): ULong {
           val operandValue = when (operand) {
             "old" -> item
-            else -> operand.toInt()
+            else -> operand.toULong()
           }
           return when (operator) {
             "+" -> item + operandValue
@@ -82,12 +82,12 @@ class Day11(runOnExample: Boolean = false) : AdventOfCode(runOnExample) {
           }
         }
         val divisor =
-          Regex("\\d+").matchAt(strings[3].trim(), "Test: divisible by ".length)!!.value.toInt()
+          Regex("\\d+").matchAt(strings[3].trim(), "Test: divisible by ".length)!!.value.toUInt()
         val targetTrue =
           Regex("(\\d+)").matchAt(strings[4].trim(), "If true: throw to monkey ".length)!!.value.toInt()
         val targetFalse =
           Regex("(\\d+)").matchAt(strings[5].trim(), "If false: throw to monkey ".length)!!.value.toInt()
-        val target = fun(value: Int) = if (value % divisor == 0) targetTrue else targetFalse
+        val target = fun(value: ULong) = if (value % divisor == 0UL) targetTrue else targetFalse
         add(Monkey(index, startingItems, operation, target))
       }
     }
