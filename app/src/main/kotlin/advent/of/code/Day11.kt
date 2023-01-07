@@ -23,11 +23,13 @@ class Day11(runOnExample: Boolean = false) : AdventOfCode(runOnExample) {
   }
 
   fun monkeyAround(monkeys: SortedMap<Int,Monkey>, numRounds: Int, worryDivisor: UInt) {
+    val testDivisorLCM = monkeys.values.map { it.testDivisor }.reduce { a, b -> a * b }
     repeat(numRounds) {roundNum ->
       monkeys.values.forEach { monkey ->
         monkey.items
           .map(monkey.operation)
           .map { it / worryDivisor }
+          .map { it % testDivisorLCM }
           .forEach {
             monkeys[monkey.target(it)]!!.items.add(it)
           }
@@ -50,7 +52,8 @@ class Day11(runOnExample: Boolean = false) : AdventOfCode(runOnExample) {
     val index: Int,
     var items: MutableList<ULong>,
     val operation: (item: ULong) -> ULong,
-    val target: (value: ULong) -> Int
+    val target: (value: ULong) -> Int,
+    val testDivisor: UInt
   ) {
     var totalInspections = 0
     override fun toString(): String {
@@ -88,7 +91,7 @@ class Day11(runOnExample: Boolean = false) : AdventOfCode(runOnExample) {
         val targetFalse =
           Regex("(\\d+)").matchAt(strings[5].trim(), "If false: throw to monkey ".length)!!.value.toInt()
         val target = fun(value: ULong) = if (value % divisor == 0UL) targetTrue else targetFalse
-        add(Monkey(index, startingItems, operation, target))
+        add(Monkey(index, startingItems, operation, target, divisor))
       }
     }
     return monkeys
