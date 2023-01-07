@@ -11,11 +11,26 @@ class Day11(runOnExample: Boolean = false) : AdventOfCode(runOnExample) {
     monkeys.values.forEach {
       println(it)
     }
-    repeat(20) {roundNum ->
+    monkeyAround(monkeys, 20, 3)
+  }
+
+  override fun partTwo() {
+    val monkeys = parse_monkeys().associateBy { it.index }.toSortedMap()
+    monkeys.values.forEach {
+      println(it)
+    }
+    monkeyAround(monkeys, 10000, 1)
+  }
+
+  fun monkeyAround(monkeys: SortedMap<Int,Monkey>, numRounds: Int, worryDivisor: Int) {
+    repeat(numRounds) {roundNum ->
       monkeys.values.forEach { monkey ->
-        monkey.items.map(monkey.operation).forEach {
-          monkeys[monkey.target(it)]!!.items.add(it)
-        }
+        monkey.items
+          .map(monkey.operation)
+          .map { it / worryDivisor }
+          .forEach {
+            monkeys[monkey.target(it)]!!.items.add(it)
+          }
         monkey.totalInspections += monkey.items.size
         monkey.items.clear()
       }
@@ -29,10 +44,6 @@ class Day11(runOnExample: Boolean = false) : AdventOfCode(runOnExample) {
     }
     val monkeyBusiness = monkeys.values.map { it.totalInspections }.sortedDescending().take(2).reduce { a, b -> a * b }
     println("monkey business level: $monkeyBusiness")
-  }
-
-  override fun partTwo() {
-    println("???")
   }
 
   class Monkey(
@@ -68,7 +79,7 @@ class Day11(runOnExample: Boolean = false) : AdventOfCode(runOnExample) {
             "-" -> item - operandValue
             "*" -> item * operandValue
             else -> throw Error("ahh")
-          }.let { it / 3 }
+          }
         }
         val divisor =
           Regex("\\d+").matchAt(strings[3].trim(), "Test: divisible by ".length)!!.value.toInt()
