@@ -3,7 +3,7 @@ package advent.of.code
 import kotlin.math.abs
 
 
-class AStarGrid(
+open class AStarGrid(
   private val gridValues: List<List<Int>>,
   private val start: Pair<Int, Int>,
   private val goal: Pair<Int, Int>
@@ -28,7 +28,7 @@ class AStarGrid(
 
     while (known.isNotEmpty()) {
       var current = known.minBy { hScore.getValue(it) }
-      if (current == goal) {
+      if (goalFound(current)) {
         return buildList {
           while (current != start) {
             add(current)
@@ -43,7 +43,7 @@ class AStarGrid(
           if (gScore < score.getValue(neighbor)) {
             returnPath[neighbor] = current
             score[neighbor] = gScore
-            hScore[neighbor] = gScore + goal.taxiDistanceTo(neighbor)
+            hScore[neighbor] = gScore + heuristic(neighbor)
             known.add(neighbor)
           }
         }
@@ -65,9 +65,29 @@ class AStarGrid(
     throw Exception("A* algorithm unable to find any path from start to goal node")
   }
 
+  open fun heuristic(neighbor: Pair<Int,Int>) : Int {
+    return goal.taxiDistanceTo(neighbor)
+  }
+
+  open fun goalFound(current: Pair<Int, Int>): Boolean {
+    return current == goal
+  }
+
   override fun toString(): String {
     return ("$start to $goal\n") +
       gridValues.joinToString("\n") { it.joinToString(",") { "%02d".format(it) } }
+  }
+}
+
+class ModAStarGrid(gridValues: List<List<Int>>, start: Pair<Int, Int>, goal: Pair<Int, Int>, val aList: List<Pair<Int,Int>>) :
+  AStarGrid(gridValues, start, goal) {
+
+  override fun heuristic(neighbor: Pair<Int, Int>): Int {
+    return aList.map { neighbor.taxiDistanceTo(it) }.min()
+  }
+
+  override fun goalFound(current: Pair<Int, Int>): Boolean {
+    return current in aList
   }
 }
 
