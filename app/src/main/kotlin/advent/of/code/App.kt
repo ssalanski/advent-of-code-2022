@@ -24,6 +24,7 @@ class App {
     Day10(),
     Day11(),
     Day12(),
+    Day13(),
   ).associateBy { it.day }
 }
 
