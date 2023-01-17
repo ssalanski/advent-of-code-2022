@@ -1,5 +1,6 @@
-package advent.of.code
+package advent.of.code.challenge
 
+import advent.of.code.AdventOfCode
 import java.util.*
 import kotlin.streams.asSequence
 
@@ -22,7 +23,7 @@ class Day11 : AdventOfCode() {
     monkeyAround(monkeys, 10000, 1U)
   }
 
-  fun monkeyAround(monkeys: SortedMap<Int,Monkey>, numRounds: Int, worryDivisor: UInt) {
+  fun monkeyAround(monkeys: SortedMap<Int, Monkey>, numRounds: Int, worryDivisor: UInt) {
     val testDivisorLCM = monkeys.values.map { it.testDivisor }.reduce { a, b -> a * b }
     repeat(numRounds) {roundNum ->
       monkeys.values.forEach { monkey ->

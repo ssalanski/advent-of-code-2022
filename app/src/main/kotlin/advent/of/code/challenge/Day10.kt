@@ -1,4 +1,7 @@
-package advent.of.code
+package advent.of.code.challenge
+
+import advent.of.code.AdventOfCode
+import advent.of.code.withinOne
 
 class Day10 : AdventOfCode() {
   override val day: Int = 10
@@ -39,8 +42,4 @@ class Day10 : AdventOfCode() {
     }
   }
 
-}
-
-private fun Int.withinOne(i: Int): Boolean {
-  return this == i || this == i+1 || this == i-1
 }

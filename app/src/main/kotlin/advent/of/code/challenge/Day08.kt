@@ -1,4 +1,8 @@
-package advent.of.code
+package advent.of.code.challenge
+
+import advent.of.code.AdventOfCode
+import advent.of.code.get
+import advent.of.code.takeWhile
 
 class Day08 : AdventOfCode() {
   override val day: Int = 8

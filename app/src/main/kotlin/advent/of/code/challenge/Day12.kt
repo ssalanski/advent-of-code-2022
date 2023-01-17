@@ -1,5 +1,8 @@
-package advent.of.code
+package advent.of.code.challenge
 
+import advent.of.code.AStarGrid
+import advent.of.code.AdventOfCode
+import advent.of.code.ModAStarGrid
 import kotlin.streams.toList
 
 class Day12 : AdventOfCode() {

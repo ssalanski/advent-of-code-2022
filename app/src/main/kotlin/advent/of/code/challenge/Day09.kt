@@ -1,5 +1,6 @@
-package advent.of.code
+package advent.of.code.challenge
 
+import advent.of.code.AdventOfCode
 import kotlin.math.abs
 import kotlin.math.max
 

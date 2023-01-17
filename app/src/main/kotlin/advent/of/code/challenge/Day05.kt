@@ -1,6 +1,8 @@
-package advent.of.code
+package advent.of.code.challenge
 
-import java.util.Stack
+import advent.of.code.AdventOfCode
+import advent.of.code.splitSequenceOn
+import java.util.*
 
 class Day05 : AdventOfCode() {
   override val day: Int = 5

@@ -1,5 +1,6 @@
-package advent.of.code
+package advent.of.code.challenge
 
+import advent.of.code.AdventOfCode
 import java.util.*
 
 class Day07 : AdventOfCode() {

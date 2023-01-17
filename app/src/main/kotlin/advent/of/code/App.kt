@@ -3,6 +3,7 @@
  */
 package advent.of.code
 
+import advent.of.code.challenge.*
 import java.io.BufferedReader
 
 class App {
