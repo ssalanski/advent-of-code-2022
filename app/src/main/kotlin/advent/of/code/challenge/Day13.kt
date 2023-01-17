@@ -2,7 +2,9 @@ package advent.of.code.challenge
 
 import advent.of.code.AdventOfCode
 import java.util.*
+import java.util.stream.Stream
 import kotlin.streams.asSequence
+import kotlin.streams.toList
 
 class IntOrList : Comparable<IntOrList> {
   constructor(anInt: Int) {
@@ -13,14 +15,14 @@ class IntOrList : Comparable<IntOrList> {
     theList = aList
   }
 
-  var theInt: Int? = null
-  var theList: List<IntOrList>? = null
-  val isInt: Boolean
+  private var theInt: Int? = null
+  private var theList: List<IntOrList>? = null
+  private val isInt: Boolean
     get() = when (theInt) {
       null -> false
       else -> true
     }
-  val isList: Boolean
+  private val isList: Boolean
     get() = when (theList) {
       null -> false
       else -> true
@@ -107,10 +109,23 @@ class Day13 : AdventOfCode() {
         //println("--------")
         (index + 1).takeIf { first < second }
       }.sum()
-    println("sum of correctly ordered pair indices: $sumOfCorrectOrderIndexes")
+    println("sum of correctly ordered pair indexes: $sumOfCorrectOrderIndexes")
   }
 
   override fun partTwo() {
-    println(("Not yet implemented"))
+    val productOfMarkerPacketIndexes =
+      Stream.concat(readInput().lines(), Stream.of("[[2]]", "[[6]]"))
+        .filter(String::isNotBlank).map(String::trim)
+        .map(IntOrList.Companion::fromString)
+        .sorted().toList()
+        .mapIndexedNotNull { index, item ->
+          (index + 1).takeIf {
+            item.compareTo(IntOrList(listOf(IntOrList(listOf(IntOrList(2)))))) == 0
+              ||
+              item.compareTo(IntOrList(listOf(IntOrList(listOf(IntOrList(6)))))) == 0
+          }
+        }.also { println("marker packet count: ${it.size}") }
+        .reduce(Int::times)
+    println("product of marker packet indexes: $productOfMarkerPacketIndexes")
   }
 }
