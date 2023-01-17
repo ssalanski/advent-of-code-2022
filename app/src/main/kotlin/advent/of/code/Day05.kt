@@ -2,7 +2,7 @@ package advent.of.code
 
 import java.util.Stack
 
-class Day05(runOnExample: Boolean = false) : AdventOfCode(runOnExample) {
+class Day05 : AdventOfCode() {
   override val day: Int = 5
 
   override fun partOne() {

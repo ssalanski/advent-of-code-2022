@@ -2,7 +2,7 @@ package advent.of.code
 
 import java.util.*
 
-class Day07(runOnExample: Boolean = false) : AdventOfCode(runOnExample) {
+class Day07 : AdventOfCode() {
   override val day: Int = 7
 
   private fun computeAllDirectorySizes(lines: Iterable<String>): List<Int> {

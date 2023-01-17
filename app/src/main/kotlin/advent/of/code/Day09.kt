@@ -3,7 +3,7 @@ package advent.of.code
 import kotlin.math.abs
 import kotlin.math.max
 
-class Day09(runOnExample: Boolean = false) : AdventOfCode(runOnExample) {
+class Day09 : AdventOfCode() {
   override val day: Int = 9
 
   override fun partOne() {

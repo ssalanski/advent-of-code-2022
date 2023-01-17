@@ -2,7 +2,7 @@ package advent.of.code
 
 import kotlin.streams.toList
 
-class Day12(runOnExample: Boolean = false) : AdventOfCode(runOnExample) {
+class Day12 : AdventOfCode() {
   override val day: Int = 12
 
   override fun partOne() {

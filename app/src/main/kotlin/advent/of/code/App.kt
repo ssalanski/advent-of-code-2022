@@ -10,10 +10,24 @@ class App {
     get() {
       return "Hello World!"
     }
+  val challenges: Map<Int, AdventOfCode> = listOf(
+    Day01(),
+    Day02(),
+    Day03(),
+    Day04(),
+    Day05(),
+    Day06(),
+    Day07(),
+    Day08(),
+    Day09(),
+    Day10(),
+    Day11(),
+    Day12(),
+  ).associateBy { it.day }
 }
 
-abstract class AdventOfCode(runOnExample: Boolean = false) {
-  private val filename = if (runOnExample) "example.txt" else "input.txt"
+abstract class AdventOfCode {
+  private lateinit var filename: String
   abstract val day: Int
   abstract fun partOne()
   abstract fun partTwo()
@@ -23,27 +37,22 @@ abstract class AdventOfCode(runOnExample: Boolean = false) {
 
   fun readInput(): BufferedReader = readInput("/day%02d/$filename".format(day))
 
-  fun run() {
+  fun run(runOnExample: Boolean) {
+    filename = if (runOnExample) "example.txt" else "input.txt"
     partOne()
     partTwo()
   }
 }
 
-fun main() {
-  println(App().greeting)
 
-//  Day01().run()
-//  Day02().run()
-//  Day03().run()
-//  Day04().run()
-//  Day05().run()
-//  Day06().run()
-//  Day07().run()
-//  Day08().run()
-//  Day09().run()
-//  Day10().run()
-//  Day11().run()
-  Day12(true).run()
-  Day12().run()
+fun main(args: Array<String>) {
+  App().let {
+    println(it.greeting)
 
+    val day = args[0].toInt()
+    val example = args.getOrNull(1).toBoolean()
+
+    it.challenges.getValue(day).run(example)
+
+  }
 }

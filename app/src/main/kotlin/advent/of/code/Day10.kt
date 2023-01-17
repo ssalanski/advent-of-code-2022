@@ -1,6 +1,6 @@
 package advent.of.code
 
-class Day10(runOnExample: Boolean = false) : AdventOfCode(runOnExample) {
+class Day10 : AdventOfCode() {
   override val day: Int = 10
 
   private fun registerGenerator() = sequence {

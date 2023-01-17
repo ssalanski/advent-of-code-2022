@@ -3,7 +3,7 @@ package advent.of.code
 import java.util.*
 import kotlin.streams.asSequence
 
-class Day11(runOnExample: Boolean = false) : AdventOfCode(runOnExample) {
+class Day11 : AdventOfCode() {
   override val day: Int = 11
 
   override fun partOne() {

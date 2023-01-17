@@ -1,6 +1,6 @@
 package advent.of.code
 
-class Day06(runOnExample: Boolean = false) : AdventOfCode(runOnExample) {
+class Day06 : AdventOfCode() {
   override val day: Int = 6
 
   private fun findFirstWindowOfDistinctCharacters(stream: Iterable<Char>, size: Int): Int {

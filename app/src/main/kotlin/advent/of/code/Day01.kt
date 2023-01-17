@@ -1,6 +1,6 @@
 package advent.of.code
 
-class Day01(runOnExample: Boolean = false) : AdventOfCode(runOnExample) {
+class Day01 : AdventOfCode() {
   override val day: Int = 1
 
   override fun partOne() {

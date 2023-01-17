@@ -1,6 +1,6 @@
 package advent.of.code
 
-class Day04(runOnExample: Boolean = false) : AdventOfCode(runOnExample) {
+class Day04 : AdventOfCode() {
   override val day: Int = 4
 
   private fun parseElfPairAssignments() =
